@@ -11,5 +11,12 @@ def index(request):
     return render(request, 'products.html', data)
 
 
-def new(request):
-    return HttpResponse('New Products')
+def details(request, id):
+    product = Product.objects.get(id=id)
+    recent_products = Product.objects.all().exclude(id=id)
+    data = {
+        'product': product,
+        'recent_products': recent_products,
+    }
+
+    return render(request, 'product-details.html', data)
