@@ -16,27 +16,9 @@ class Vendor(models.Model):
     avatar = models.ImageField(null=True)
     address = models.CharField(null=True, max_length=400)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(args, kwargs)
-        self.username = None
-
-    @property
-    def __str__(self):
-        return self.username
-
 
 class Customer(models.Model):
     user = models.OneToOneField(User, related_name="customer", on_delete=models.CASCADE)
     phone = models.CharField(max_length=20)
     avatar = models.ImageField(null=True)
-    address = models.ImageField(null=True, default=400)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(args, kwargs)
-        self.username = None
-
-    @property
-    def __str__(self):
-        return self.username
-
-
+    address = models.CharField(null=True, max_length=400)

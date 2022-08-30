@@ -26,32 +26,51 @@
                     {% endif %}
 
                     <div class="card">
+
                         <div class="card-body">
-                            <form method="POST" action="{% url 'web.register' %}">
+                            <form method="POST" action="{% url 'users:register' %}">
                                 {% csrf_token %}
                                 <div class="mb-3">
-                                    <label for="name" class="form-label">Full Name</label>
-                                    <input type="text" name="name" class="form-control" id="name">
+                                    <label for="username" class="form-label">Username*</label>
+                                    <input type="text" name="username" class="form-control" id="username">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="email" class="form-label">Email address</label>
+                                    <label for="first_name" class="form-label">First name*</label>
+                                    <input type="text" name="first_name" class="form-control" id="first_name">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="last_name" class="form-label">Last name*</label>
+                                    <input type="text" name="last_name" class="form-control" id="last_name">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">Phone Number*</label>
+                                    <input type="text" name="phone" class="form-control" id="phone">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email address*</label>
                                     <input type="email" name="email" class="form-control" id="email">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="password" class="form-label">Password</label>
+                                    <label for="user_type" class="form-label">Select User*</label>
+                                    <select name="user_type" class="form-control" id="user_type">
+                                        <option value="customer">Customer</option>
+                                        <option value="vendor">Vendor</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password*</label>
                                     <input type="password" name="password" class="form-control" id="password">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="confirm_password" class="form-label">Confirm Password</label>
-                                    <input type="password" name="confirm_password" class="form-control"
-                                           id="confirm_password">
+                                    <label for="confirm_password" class="form-label">Confirm Password*</label>
+                                    <input type="password" name="confirm_password" class="form-control" id="confirm_password">
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <button type="submit" class="btn btn-primary">Register</button>
                                     </div>
                                     <div class="col-md-8">
-                                        I have already an account <a href="{% url 'web.login' %}">Login Now</a>
+                                        I have already an account <a href="{% url 'users:login' %}">Login Now</a>
                                     </div>
                                 </div>
                             </form>
