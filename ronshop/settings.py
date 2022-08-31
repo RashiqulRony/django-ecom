@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'products.apps.ProductsConfig',
     'users'
+    'cart'
 ]
 
 MIDDLEWARE = [
@@ -65,6 +66,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cart.context_processor.cart_total_amount'
             ],
         },
     },
@@ -85,9 +87,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'djecom',
-        'USER':'root',
-        'PASSWORD':'',
-        'HOST':'localhost',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }
@@ -135,3 +137,5 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CART_SESSION_ID = 'cart'

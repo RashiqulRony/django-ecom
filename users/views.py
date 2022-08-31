@@ -19,13 +19,22 @@ def login(request):
         username = request.POST['username']
         password = request.POST['password']
 
-        user = authenticate(request, username=username, password=password)
+        try:
+            check_user = User.objects.get(username=username, is_active=1, is_superuser=0)
+        except Exception as e:
+            print(e)
+            check_user = None
 
-        if user is not None:
-            access_login(request, user)
-            return redirect('/users/dashboard')
+        if check_user:
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                access_login(request, user)
+                return redirect('users:dashboard')
+            else:
+                messages.error(request, 'Invalid username and password')
+                return render(request, 'users/login.html')
         else:
-            messages.error(request, 'Invalid username and password')
+            messages.error(request, "You're not user. Please Signup first.")
             return render(request, 'users/login.html')
 
     return render(request, 'users/login.html')
@@ -117,6 +126,7 @@ def register(request):
 def user_logout(request):
     logout(request)
     return redirect('/')
+
 
 @is_login
 def dashboard(request):
