@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    | Cart Details
+{% endblock %}
+
+{% block content %}
+    {% for key,value in request.session.cart.items %}
+        Name : {{ value.name }} - Price: {{ value.price }} - Quantity: {{ value.quantity }}
+    {% endfor %}
+{% endblock %}
