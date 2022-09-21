@@ -5,7 +5,7 @@ from cart.cart import Cart
 from products.models import Product
 
 
-@login_required(login_url="/users/login")
+# @login_required(login_url="/users/login")
 def cart_add(request, id):
     cart = Cart(request)
     product = Product.objects.get(id=id)

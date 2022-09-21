@@ -21,13 +21,14 @@ class Cart(object):
         """
         id = product.id
         newItem = True
+
         if str(product.id) not in self.cart.keys():
 
             self.cart[product.id] = {
                 'userid': self.request.user.id,
                 'product_id': id,
                 'name': product.name,
-                'quantity': 1,
+                'quantity': quantity,
                 'price': str(product.price),
                 'image': product.image_url
             }
@@ -36,22 +37,21 @@ class Cart(object):
 
             for key, value in self.cart.items():
                 if key == str(product.id):
-
-                    value['quantity'] = value['quantity'] + 1
+                    value['quantity'] = value['quantity'] + quantity
                     newItem = False
                     self.save()
                     break
             if newItem == True:
-
                 self.cart[product.id] = {
                     'userid': self.request,
                     'product_id': product.id,
                     'name': product.name,
-                    'quantity': 1,
+                    'quantity': quantity,
                     'price': str(product.price),
                     'image': product.image.url
                 }
 
+        self.cart_amount()
         self.save()
 
     def save(self):
@@ -59,6 +59,7 @@ class Cart(object):
         self.session[settings.CART_SESSION_ID] = self.cart
         # mark the session as "modified" to make sure it is saved
         self.session.modified = True
+
 
     def remove(self, product):
         """
@@ -69,19 +70,35 @@ class Cart(object):
             del self.cart[product_id]
             self.save()
 
+        self.cart_amount()
+
     def decrement(self, product):
         for key, value in self.cart.items():
             if key == str(product.id):
 
                 value['quantity'] = value['quantity'] - 1
-                if(value['quantity'] < 1):
+                if (value['quantity'] < 1):
                     return redirect('cart:cart_detail')
                 self.save()
                 break
             else:
                 print("Something Wrong")
 
+        self.cart_amount()
+
     def clear(self):
         # empty cart
         self.session[settings.CART_SESSION_ID] = {}
         self.session.modified = True
+        self.cart_amount()
+
+    def cart_amount(self):
+        cart_subtotal = 0.00
+        cart_total = 0.00
+        if self.cart.items():
+            for key, value in self.cart.items():
+                cart_subtotal += float(value['price']) * int(value['quantity'])
+                cart_total += float(value['price']) * int(value['quantity'])
+
+        self.request.session['cart_total'] = cart_total
+        self.request.session['cart_subtotal'] = cart_subtotal
